@@ -1,7 +1,8 @@
 Milestone M1 report
 
 
-The main goal of milestone one is the collect data and orginze them into datasets. We have finished working on milestone 1 of the project and are currently preparing for milstione2. In milestone 1, we have split the team into two groups separately, with one responsible for the mood classification of music and the other for emotion detection of the faces. 
+ 
+The main goal of milestone one is to collect data and organize them into datasets. We have finished working on milestone 1 of the project and are currently preparing for milstione2. In milestone 1, we have split the team into two groups separately, with one responsible for the mood classification of music and the other for emotion detection of the faces. 
 
 Current State for Team "Emotion":
 
