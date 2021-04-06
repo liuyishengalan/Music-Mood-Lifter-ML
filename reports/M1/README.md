@@ -20,7 +20,7 @@ Note: In the proposal, it suggests that we have 200 samples for each music mood,
 
 Work Distribution:  
 
-Allen: Imported libraries. retrieved dataset from kaggle, parsed and organized  the datasets of team “emotion”, helped find related work.
+Yisheng: Imported libraries. retrieved dataset from kaggle, parsed and organized  the datasets of team “emotion”, helped find related work.
 
 David: Wrote the report of team “emotion” and assembled the two team’s reports into a final milestone 1 report, searched for the dataset of team “emotion” online (kaggle), helped find related work.
 
