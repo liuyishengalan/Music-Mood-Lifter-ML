@@ -17,8 +17,11 @@ So far, both teams have completed training their models. There are no feature ch
 Work Distribution:
 
 Yisheng: Imported libraries, researched for the related model, modified the existing model, trained, and tested the model.
+
 David: Wrote the report of team “emotion” and assembled the two team’s reports into a final milestone 2 report, fed parameters to the model, prepared and compiled the model, loaded the model. 
+
 Jack: Wrote the “music” portion of the second milestone report.
+
 Jacob: Implemented the “music” portion of the model for testing and training and compiled dataset.
 
 Reference
