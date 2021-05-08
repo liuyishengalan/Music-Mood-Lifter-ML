@@ -1,0 +1,11 @@
+Hi team, great progress. However, regarding the 
+facial emotion detector network, there are some 
+comments/concerns:
+Why is ResNet changed to Xception? I don't think you are justifying this in your milestone. Also, I'm not convinced that 
+regular convolution runs faster than depthwise seprable convolutions.
+Please use published reference or data when you are making such claims.
+Beside that, 68% accuracy is not so good. I suggest you try some things:
+- try more powerful networks (ResNet50 or Inception)
+- try data augmentation (random flip, random rotation etc.)
+- try regularization techniques such as L2 etc. 
+- different LR scheduling and optimizers
