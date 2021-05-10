@@ -1,4 +1,5 @@
 Milestone M3 report
+
 The main goal of milestone 3 is to work on web development to collect data for our trained models and output results for the users. We have split the team into two groups separately, with one responsible for the mood classification of music and the other for “emotion” detection of the faces. 
 
 Current State for Team "Emotion":
