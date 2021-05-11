@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="card text-white bg-info mb-3">
+  <div class="card-header">
+    Select an image from your device then click analyze button to detect the emotion expressed in the image.
+  </div>
+  <div class="card-body">
+    <form method="post" enctype="multipart/form-data" >
+      {% csrf_token %}
+      {{ form|crispy }} 
+      <button type="submit" class="btn btn-success">Analyze Image</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
