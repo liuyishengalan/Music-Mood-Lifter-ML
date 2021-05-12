@@ -5,14 +5,17 @@
 {% block content %}
 <div class="card text-white bg-info mb-3">
   <div class="card-header">
-    Select an image from your device then click analyze button to detect the emotion expressed in the image.
+    Click 'Choose File' Button to upload image with your face from your device then click 'Process My Image' to activate the system. This system will analysis your emotion and recommend suitable music from Spotify library.
   </div>
   <div class="card-body">
     <form method="post" enctype="multipart/form-data" >
       {% csrf_token %}
       {{ form|crispy }} 
-      <button type="submit" class="btn btn-success">Analyze Image</button>
+      <button type="submit" class="btn btn-success">Process My Image</button>
     </form>
+  </div>
+  <div class="card-header">
+    Support Only JPG, JPEG, PNG Format Images. 
   </div>
 </div>
 {% endblock %}

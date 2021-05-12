@@ -16,13 +16,13 @@ class classifier:
         # load weights into new model
         self.loaded_model.load_weights("ml/model.h5")
 
-    def emotion_analysis(self, emotions):
+    def analysis(self, emotions):
         emotion_lib = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
         print("Predicted Emotion : ", emotion_lib[int(np.argmax(emotions))])
         return (emotion_lib[np.argmax(emotions)], int(np.argmax(emotions)))
 
 
-    def make_prediction(self, f):
+    def makePredict(self, f):
         f = os.path.abspath(os.path.dirname(__file__))+ '/static/images/'+f
         test_image=cv2.imread(f)
         cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -31,7 +31,7 @@ class classifier:
         if len(crop) is 0:
             return ('No Face Detected - Retry.', detected_failed)
         else:
-            emotion_pred=self.emotion_analysis(self.loaded_model.predict(crop[0]))
+            emotion_pred=self.analysis(self.loaded_model.predict(crop[0]))
             return (emotion_pred)
 
 def detect_face(cascade, pic, scaleFactor=1.3):

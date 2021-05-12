@@ -1,14 +1,14 @@
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-import timeit
-import pandas as pd
 import random
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
-from sklearn.model_selection import train_test_split
-from keras.models import Sequential
+import timeit
+
+import keras.models
+import pandas as pd
+import spotipy
 from keras.layers import Dense
-from keras.wrappers.scikit_learn import KerasClassifier
-import json
+from keras.models import Sequential
+from sklearn.preprocessing import MinMaxScaler
+from spotipy.oauth2 import SpotifyClientCredentials
+from numpy import argmax
 
 
 def base_model():
@@ -66,21 +66,7 @@ class MusicMoodClassifier:
         self.secret = "1cca3d1fff6145fdaee72ba822e8b586"
         self.client_credentials_manager = SpotifyClientCredentials(client_id=self.cid, client_secret=self.secret)
         self.sp = spotipy.Spotify(client_credentials_manager=self.client_credentials_manager)
-        self.df = pd.read_csv('ml/data_moods.csv')
-
-        col_features = self.df.columns[7:16]
-        features = self.df[col_features]
-        mood = self.df['mood']
-        features = MinMaxScaler().fit_transform(features)
-        # Encode the labels (targets)
-        encoder = LabelEncoder()
-        encoder.fit(mood)
-        encoded_y = encoder.transform(mood)
-        # Split train and test data with a test size of 20%
-        features_train, features_test, mood_train, mood_test = train_test_split(features, encoded_y, test_size=0.2,
-                                                                                random_state=15)
-        self.estimator = KerasClassifier(build_fn=base_model, epochs=300, batch_size=64)
-        self.estimator.fit(features_train, mood_train)
+        self.estimator = keras.models.load_model('ml/music_model.h5')
 
     def getTracks(self, query, number):
         start = timeit.default_timer()
@@ -142,17 +128,20 @@ class MusicMoodClassifier:
         df_test_features = df_test[test_col_features]
         df_test_features = MinMaxScaler().fit_transform(df_test_features)
         mood_preds_test = self.estimator.predict(df_test_features)
+        mood_preds = []
+        for i in range(len(mood_preds_test)):
+            mood_preds.append(argmax(mood_preds_test[i]))
         IDs = test['track_id']
         names = test['track_name']
         results = []
         final_results = []
         if typicalMood == 1:
-            for x in range(500):
-                if mood_preds_test[x] == typicalMood:
+            for x in range(100):
+                if mood_preds[x] == typicalMood:
                     results.append([names[x], IDs[x]])
         else:
             for x in range(50):
-                if mood_preds_test[x] == typicalMood:
+                if mood_preds[x] == typicalMood:
                     results.append([names[x], IDs[x]])
 
         result = self.sp.track(results[0][1])

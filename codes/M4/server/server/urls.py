@@ -7,5 +7,5 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
-    path("process", views.process_upload)
+    path("process", views.upload_process)
 ]+  static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

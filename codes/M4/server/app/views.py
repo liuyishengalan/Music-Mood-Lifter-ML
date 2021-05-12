@@ -20,9 +20,8 @@ def index(request):
 
         if form.is_valid():
             print(request.FILES['File'])
-            name = handle_uploaded_file(request.FILES['File'])
-            outputfilename = "static/images/"+ name
-            prediction = process_upload(name)
+            prediction = upload_process(upload_handle(request.FILES['File']))
+            outputfilename = "static/images/"+ upload_handle(request.FILES['File'])
             emotion =prediction[0]
             if prediction[1] is not -1:
                 rf = MusicMoodClassifier()
@@ -51,7 +50,7 @@ def index(request):
         form = UploadFileForm()
     return render(request, 'index.html', {'form': form})
 
-def handle_uploaded_file(f):
+def upload_handle(f):
     context={}
     uploadfilename= os.path.abspath(os.path.dirname(__file__))+ '/static/images/'+f.name
     with open(uploadfilename, 'wb+') as destination:
@@ -59,7 +58,7 @@ def handle_uploaded_file(f):
             destination.write(chunk)
     return f.name
 
-def process_upload(f):
-    print("In process upload function")
-    c = classifier()
-    return c.make_prediction(f)
+def upload_process(f):
+    print("User Operation: Uploading in process.")
+    a = classifier()
+    return a.makePredict(f)
