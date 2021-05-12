@@ -1,11 +1,12 @@
-Hi team, great progress. However, regarding the 
-facial emotion detector network, there are some 
-comments/concerns:
-Why is ResNet changed to Xception? I don't think you are justifying this in your milestone. Also, I'm not convinced that 
-regular convolution runs faster than depthwise seprable convolutions.
-Please use published reference or data when you are making such claims.
-Beside that, 68% accuracy is not so good. I suggest you try some things:
-- try more powerful networks (ResNet50 or Inception)
-- try data augmentation (random flip, random rotation etc.)
-- try regularization techniques such as L2 etc. 
-- different LR scheduling and optimizers
+Hi Team. I could not get this information from your 
+report: is your emotion detector working better now?
+Because I remember you had around ~68% accuracy 
+which needs to be improved. If it is not improved yet, please 
+work on it ASAP as there is little time left.
+Looking at your code, you are getting around 91% train 
+error. That means a stronger model would probably do better!
+Also, there is a large gap between validation and train accuracy.
+This means you are overfitting. Do you have L2 regularization on 
+each kernel? use L2 of 4E-5 or something. Also it seems like 
+you are not normalizing your images (feature wise center and std normalized) 
+is there a good reason for that? Are they already normalized?
