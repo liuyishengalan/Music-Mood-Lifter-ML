@@ -17,7 +17,7 @@ class classifier:
         self.loaded_model.load_weights("ml/model.h5")
 
     def analysis(self, emotions):
-        emotion_lib = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
+        emotion_lib = {0: 'Angry', 1: 'Disgust', 2: 'Fearful', 3: 'Happy', 4: 'Sad', 5: 'Surprise', 6: 'Neutral'}
         print("Predicted Emotion : ", emotion_lib[int(np.argmax(emotions))])
         return (emotion_lib[np.argmax(emotions)], int(np.argmax(emotions)))
 
