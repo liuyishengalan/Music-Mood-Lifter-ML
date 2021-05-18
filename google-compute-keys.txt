@@ -1,8 +1,0 @@
-This file contains some Google Compute credits for your team.
-You can redeem them at: http://console.cloud.google.com/edu
-You need to do this **BEFORE MAY 11th**.
-
-V3AY-18P5-JP3F-25EV
-V3UM-37JD-AHHW-HGCL
-VA7C-TV2G-8GEB-JLHJ
-VP3X-WFB6-HEMY-M95A
