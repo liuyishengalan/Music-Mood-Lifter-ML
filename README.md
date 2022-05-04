@@ -12,7 +12,11 @@ The Music Mood Lifter is a software system empowered by machine learning algorit
 - A music recommending system was created 
 - Django project was created to develop a web application that deploys our ML and related functions
 
-Project Schematic
+#### Project Schematic
+
+![1](assets/1.png)
+
+Figure1. Project components
 
 #### Components of the Project
 
@@ -26,6 +30,8 @@ For the facial detection task, the FER2013 dataset was collected from Kaggle whi
 
 A data provider class was written to process input data retrieved from the FER2013 to produce a processed dataset that was made compatible with the model. In this algorithm, Panda API was used to extract the CSV from the fer2019 emotion classification dataset. By employing Numpy API, the data in the “pixels” column were reshaped as 2D arrays. With the help of OpenCV API, arrays were resized to size=(48, 48). Numpy’s expand function enabled us to decrease the dims of the 2D array back to 1D. The arrays were then normalized to have a range of [-1,1] that ensure pixels have similar data distribution, which contributes to faster convergence during model training. and Panda API’s get_dummies function helped retrieve the label of the dataset (happy, angry, .ex) from the “emotion” column. Thus, by using functions created in the data provider class, images were converted to a shape of (64, 64, 1) that can be later fed into our model.
 
+<img src="assets/2.png" alt="2" style="zoom:50%;" />
+
 Figure2. Resized dataset (64, 64)
 
 With the newly parsed datasets containing both labels and data, we had also split the sets into training and testing datasets.
@@ -37,6 +43,8 @@ With the newly parsed datasets containing both labels and data, we had also spli
 A labeled dataset with the size of 686 was collected from previous research about predicting the music mood of a song with deep learning. It has 19 columns including name, album, artist, id, release_date, popularity, length, danceability, acousticness, energy, instrumentalness, liveness, valence, loudness, speechness, tempo, key, time_signature, and mood [5]. The metadata and the features of the songs were retrieved using Spotipy, an API of Spotify in python [8]. And the moods of the song were classified manually by the author of the former research [6]. The moods were in four categories, (0=calm, 1=happy, 2=energetic, 3=sad). In most existing methods of music mood classification, the moods of songs are divided according to psychologist Robert Thayer’s traditional model of mood. The model divides songs along the lines of energy and stress, from happy to sad and calm to energetic, respectively [10].
 
 **Data Processing**
+
+<img src="assets/3.png" alt="3" style="zoom:50%;" />
 
 Figure3. Classification of music by moods
 
@@ -54,6 +62,8 @@ Models
 
 To classify emotions from human faces, Xception was adapted and was modified to fit our dataset rather than the Resnet model suggested in the proposal. The reason we chose to use Xception as our base model is that it is not as deep as the Resnet model in terms of layers, but it focuses more on improving computational efficiency with a shallower network while obtaining high accuracy[1]. The ResNet model is built to hold a deep neural network that focuses on accuracy. However, as the network goes deeper, the computational efficiency decreases. Since we have limited computational power and time. Thus, we have shifted our priority to a faster and reasonably accurate model. Moreover, the deeper networks might produce worse outcomes than shallower networks because it is more difficult to optimize in deeper layers and sometimes produce worse accuracy due to overfitting on smaller datasets like ours[2]. On the other hand, the Xception model is an extension of the inception model that focuses on reducing computational cost by computing several transformations over the same input map in parallel[3]. This model is faster and more accurate to train smaller datasets. For our dataset, we have small images (48x48) thus the size of the dataset is comparatively small. If we use the higher-accuracy and deeply layered ResNet model on our dataset, it could cause huge overfitting that would decrease the validation accuracy. Therefore, we decided to use Xception as our base model. Xception uses depth-wise separable convolutions to reduce the computational complexity in each convolutional layer allowing the network to run faster in CPU operation[3]. However, we changed these convolutions to the normal 2d convolutions to achieve better accuracy. We also dropped the middle flow out of the original model to avoid large overfitting on our small images and to maintain high computational efficiency. Thus, we only kept the entry flow and the exit flow. The model consists of a base module and comes with 4 depth-wise convolutions. Every depth-wise convolution is coupled by two convolutions and a max-pooling function, and each convolution is followed by a batch normalization operation and a ReLU activation function. The final layer uses a global average pooling and a soft-max activation function to make predictions.
 
+![4](assets/4.png)
+
 Figure4. A flow chart of the Xception model
 
 **Training and Testing**
@@ -64,17 +74,25 @@ After completing the model, we fed the parameters: image shape (64,64,1) and the
 
 After several attempts to run the model with different adjustments to the parameters, we came close to a validation accuracy of around 69%.
 
+![5](assets/5.png)
+
 Figure 5. Results from our adjusted Xception model
 
 We have also tried using L2 Regularization to improve the overfitting between val_accuracy and train_accuracy. However, there was no improvement at all, and we ended up with a val_accuracy of around 68%.
+
+![6](assets/6.png)
 
 Figure6. Results from our Xception model with L2 Regularization
 
 We also tried using a deeper model, ResNet50, which failed miserably with around 25% validation accuracy. This validates our claims on switching to the Xception model with higher accuracy than the ResNet model.
 
+![7](assets/7.png)
+
 Figure7. Results from using the ResNet50 model
 
 Since we retrieved the FER2013 dataset from Kaggle, we have also looked at the leaderboard of this challenge [4]. And we observed that the first place has a validation accuracy of 71%, 69% for the second place, and 68% for the third place, which we came very close to. Overall I think we did a pretty good job on the face detection ML Classifier component.
+
+![8](assets/8.png)
 
 Figure8. Leaderboard of the face detection challenge on fer2013 dataset [4]
 
@@ -84,6 +102,8 @@ Figure8. Leaderboard of the face detection challenge on fer2013 dataset [4]
 
 For the model of music moods prediction, we first did a few experiments. We built a deep neural network ourselves and tried to use gradient booster. But the accuracy turned out to be at most around 50% which was not satisfying. Therefore, we decided to exploit a former resarcher’s Multiclass Neural Network with an input of 9 Features, 1 Layer with 8 nodes, and 4 outputs with the output Layer. The activation Function corresponds to a Rectified Linear Unit (Relu), the Loss function is a Logistic Function and Adam Gradient Descent Algorithm is the optimizer. To evaluate the model, we used KerasClassifier and it turned out to be around 80% for the average performance.
 
+![9](assets/9.png)
+
 Figure9. Results from using the KerasClassifier
 
 The original author used the KerasClassifier as the estimator to train the data. However, the model on a KerasClassifier was not able to save, which enormously slowed the process of recommending the songs after we put everything on the server. Therefore, we just simply trained the model again and successfully saved the model to improve the performance.
@@ -91,6 +111,8 @@ The original author used the KerasClassifier as the estimator to train the data.
 **Training and Testing**
 
 After evaluating the model, we transformed the labels to one-hot code labels and trained the model with batch size equal to 64 and 300 epochs. We have an accuracy of 82% for the best case.
+
+![10](assets/10.png)
 
 Figure10. Results from training the model using the multiclass neural network
 
@@ -112,6 +134,8 @@ Our team proposed to design a website and make it as an interface of this recomm
 
 This system is running on the virtual machine held by Google Cloud Platform, and the IP is resolved to the domain: http://cpen291.yslalan.xyz by the DNS provider, Tencent Cloud.
 
+<img src="assets/11.png" alt="11" style="zoom:50%;" />
+
 Figure11. Web application structure
 
 To implement this function we decided to use HTML, javascript to support our front-end web development. The code has been deeply associated with the back-end framework (Django framework). As the user activates the function of uploading images to the server, the front-end system calls the back-end system and initializes a POST request to send a file to the backend. In this system, the ajax library has been applied to the system to build this bridge connecting the front-end and back-end system. This relationship has been labeled in the diagram above.
@@ -125,27 +149,13 @@ For the back-end of the application, we considered three ways to do it.
 3. Django framework
 
 After searching materials, we found the Django web framework is enough for our app and there are lots of tutorials so that it could be easy to start. We referred to the official docs of Django on how to run web development on the Django web framework. This is a Python-based framework, therefore the ML codes can be embedded directly to the back-end codes [7]. Additionally, the trained model weight has been saved locally to the server to increase the speed of processing the request by the users. The results returned from the ML part are rendered to the HTML webpage through the embedded functions of the Django framework.
-
-**Web Development Codes Structure (Only essential files shown, several codes have been omitted)
-** /server
- ├── app
-
-│ ├── static
- │ │├──css
- │ │ │ └── bootstrap.css
- │ │ └── images
- │ ├── templates
- │ │ ├── base.html
- │ │ ├── index.html
- │ │ └── result.html
- │ ├── classifier.py
- │ ├── music_model.py
- │ └── views.py
- ├─── ml
- └─── server
  We designed two web pages for this system, one is the home page for uploading the image from users’ local disk, and the other is the web page for showing the detected emotion and recommended music. As users select one image from their PC or mobile devices and click the button, “Process my image”, the web will jump to the second web page and show the result computed by the system. On this web page, the detected emotion, music name, the specific hyperlink to Spotify, and the album cover image will be displayed on this page. If users want to get more suggestions from our system, they can click the button “Refresh Page” at the page bottom to get the next recommended music according to the emotion detected from the image uploaded by the user. **Website Preview:** **http://cpen291.yslalan.xyz**
 
+<img src="assets/12.png" alt="12" style="zoom:50%;" />
+
 Figure12. Web Homepage
+
+<img src="assets/13.png" alt="13" style="zoom:50%;" />
 
 Figure13. Music recommendation page with music direction link to Spotify
 
