@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card text-white bg-info mb-3">
+    <div class="card-header">
+      <center>Emotion Detection And Music Recommender</center>
+    </div>
+    <div class="card-body">
+      <h3 style="font-family:Courier New; color:rgb(0, 0, 0);font-size:20px;">
+        Emotion: {{emotion}}  </br> </br> Recommended Music: </br style="font-family:Courier New; color:rgb(0, 0, 0);font-size:20px;">{{Music}}</br> </br>
+      </h3>
+      <h3 style="font-family:Courier New; color:rgb(0, 0, 0);font-size:20px;">
+        URL: 
+        <form action={{URL}}>
+          <center><input type="submit" value="Click & Go To Spotify For This Music" /></center>
+        </form>
+      </brstyle="font-family:Courier New; color:rgb(0, 0, 0);font-size:20px;"> Album Cover Image:
+      </h3>
+      <a>
+        <center><img alt="Qries" src={{Album}} width="300" height="300"></center>
+     </a>
+     <h3 style="font-family:Courier New; color:rgb(0, 0, 0);font-size:20px;">
+      Your Uploaded Picture:
+    </h3>
+    <center><img src="{{file}}" class="img-fluid"></center>
+      
+    </div>
+    <div class="card-footer text-muted">
+      <a href="/" class="btn btn-primary">Home</a>
+      <a onClick="window.location.reload();" class="btn btn-primary">Refresh Page</a>
+    </div>
+</div>
+{% endblock %}
